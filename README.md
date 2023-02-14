@@ -4,22 +4,26 @@
 ## Lusatia
 ### LST
 
+```
 library(raster)
 library(leaflet)
 library(sf)
 library(rgdal)
 library(leaflet.opacity)
-
+```
+```
 setwd("")
 
 LST = raster("LST_2022_07_19_Landsat8L1_Lusatia_WGS84.tif")
 plot(LST)
-
+```
 # Lusatia Boundary
+```
 setwd("")
 Lusatia = readOGR("Lusatia_Administrative_Boundary_EPSG4326_Dissolved.shp")
-
+```
 # Districts Boundary
+```
 setwd("")
 
 Bautzen = st_read("Bautzen.shp")
@@ -29,9 +33,10 @@ ElbeElster = st_read("Elbe-Elster.shp")
 Görlitz = st_read("Görlitz.shp")
 OberspreewaldLausitz = st_read("Oberspreewald-Lausitz.shp")
 SpreeNeiße = st_read("Spree-Neiße.shp")
+```
 
-plot(LST)
 # Mask Lusatia Districts
+```
 Bautzen_LST = raster::mask(LST, Bautzen)
 Bautzen_LST = raster::crop(Bautzen_LST, Bautzen)
 
@@ -52,14 +57,17 @@ OberspreewaldLausitz_LST = raster::crop(OberspreewaldLausitz_LST, OberspreewaldL
 
 SpreeNeiße_LST = raster::mask(LST, SpreeNeiße)
 SpreeNeiße_LST = raster::crop(SpreeNeiße_LST, SpreeNeiße)
-
+```
 
 # Color Pallettes
+```
 pal <- colorNumeric(
   palette = rev("RdYlBu") ,
   domain = values(LST), na.color = "transparent",  reverse = TRUE)
+```
 
 # Leaflet Plot
+```
 LST_Lusatia = leaflet() %>%
   
   setView(lng = 14.332868, lat = 51.756310, zoom = 10) %>% 
@@ -114,8 +122,12 @@ LST_Lusatia = leaflet() %>%
   
   # Opacity
   addOpacitySlider(layerId = "raster")
+```
 
-
+```
 LST_Lusatia
+```
+```
 setwd("")
 htmlwidgets::saveWidget(LST_Lusatia, "Lusatia_LST.html", selfcontained = F)
+```
